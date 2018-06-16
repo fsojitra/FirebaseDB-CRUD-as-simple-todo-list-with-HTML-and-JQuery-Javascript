@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    CRUD
+  </title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+  <link rel="stylesheet" href="style.css">
+
+  <script>
+    $(document).ready(function(){
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAPjMxlNowLgFxPgrYyYTXLTByBx2PSzqU",
+        authDomain: "users-6fafb.firebaseapp.com",
+        databaseURL: "https://users-6fafb.firebaseio.com",
+        projectId: "users-6fafb",
+        storageBucket: "users-6fafb.appspot.com",
+        messagingSenderId: "196220815795"
+      };
+      firebase.initializeApp(config);
+
+    var database = firebase.database();
+
+
+    var getvalue = firebase.database().ref('to_do/');
+    getvalue.on('value', function(snapshot) {
+      // alert(JSON.stringify(snapshot));
+      var tbodyEl = $('tbody');
+
+      tbodyEl.html('');
+      snapshot.forEach(function(product) {
+        tbodyEl.append('\
+          <tr>\
+          <td class="id">' + product.val().id + '</td>\
+          <td><input type="text" id='+ product.val().id +' value= '+ product.val().name +' readonly></td>\
+          <td>\
+          <button class="btn" id="update">Edit</button>\
+          <button class="btn" id="delete">Archives</button>\
+          </td>\
+          </tr>\
+          ');
+      });
+
+    });
+    
+    $('table').on('click', '#delete', function() {
+      var rowEl = $(this).closest('tr');
+      var id = rowEl.find('.id').text();
+      // alert(id);
+      console.log("id"+id);
+    });
+
+    $('table').on('click', '#update', function() {
+      var rowEl = $(this).closest('tr');
+      var id = rowEl.find('.id').text();
+      $('#'+id).attr("readonly", false);
+      alert(id);
+      console.log("id"+id);
+      $("#LeNomDeMaBaliseID").prop('id', 'LeNouveauNomDeMaBaliseID');
+    });
+
+    $( "#add" ).click(function() {
+      var task = $('#todo').val();  
+      add_todo(task);  
+      $('#form')[0].reset();
+    }); 
+
+    function add_todo(name) {
+      var newPostKey = firebase.database().ref().child('to_do').push().key;
+      var user = {
+        id: newPostKey,
+        created_at: firebase.database.ServerValue.TIMESTAMP,
+        name: name
+      };
+      var updates = {};
+      updates['/to_do/' + newPostKey] = user;
+      return firebase.database().ref().update(updates);
+    }
+
+/*    updat_user("-LAh_qZxTUV_aoeySptA",'abb', 'admin', 10)
+    function updat_user(userId, message_time, sender, text) {
+      var getvalue = firebase.database().ref('users/' +userId);
+      getvalue.on('value', function(snapshot) {
+        console.log(JSON.stringify(snapshot.val()));
+      });
+    }*/
+
+  });
+  </script>
+
+
+
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <p class="h1">Add Todo</p>
+    </div>
+    <div class="row">
+      <form id="form" class="form-inline">
+        <input type="text" class="form-control" id="todo" name="todo">
+        <button type="submit" name="Add" id="add" value="add" class="btn">Add Todo</button>
+      </form>
+    </div>
+    <div class="row">
+
+      <table class="table table-striped" >
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Todos</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</body>
+</html>
