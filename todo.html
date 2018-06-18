@@ -28,7 +28,6 @@
 
     var getvalue = firebase.database().ref('to_do/');
     getvalue.on('value', function(snapshot) {
-      // alert(JSON.stringify(snapshot));
       var tbodyEl = $('tbody');
 
       tbodyEl.html('');
@@ -38,7 +37,7 @@
           <td class="id">' + product.val().id + '</td>\
           <td><input type="text" id='+ product.val().id +' value= '+ product.val().name +' readonly></td>\
           <td>\
-          <button class="btn" id="update">Edit</button>\
+          <button class="btn" id="edit">Edit</button>\
           <button class="btn" id="delete">Archives</button>\
           </td>\
           </tr>\
@@ -47,22 +46,7 @@
 
     });
     
-    $('table').on('click', '#delete', function() {
-      var rowEl = $(this).closest('tr');
-      var id = rowEl.find('.id').text();
-      // alert(id);
-      console.log("id"+id);
-    });
-
-    $('table').on('click', '#update', function() {
-      var rowEl = $(this).closest('tr');
-      var id = rowEl.find('.id').text();
-      $('#'+id).attr("readonly", false);
-      alert(id);
-      console.log("id"+id);
-      $("#LeNomDeMaBaliseID").prop('id', 'LeNouveauNomDeMaBaliseID');
-    });
-
+//////add todo start ////////////////
     $( "#add" ).click(function() {
       var task = $('#todo').val();  
       add_todo(task);  
@@ -80,16 +64,52 @@
       updates['/to_do/' + newPostKey] = user;
       return firebase.database().ref().update(updates);
     }
+//////add todo end ////////////////
 
-/*    updat_user("-LAh_qZxTUV_aoeySptA",'abb', 'admin', 10)
-    function updat_user(userId, message_time, sender, text) {
-      var getvalue = firebase.database().ref('users/' +userId);
-      getvalue.on('value', function(snapshot) {
-        console.log(JSON.stringify(snapshot.val()));
-      });
-    }*/
+//////update todo start ////////////////
+    $('table').on('click', '#edit', function() {
+      var rowEl = $(this).closest('tr');
+      var id = rowEl.find('.id').text();
+      alert(id);
+      $('#'+id).attr("readonly", false);
+      $("#edit").html('Update');
+      $("#edit").prop('id', 'update');
+    });
 
-  });
+    $('table').on('click', '#update', function() {
+      var rowEl = $(this).closest('tr');
+      var id = rowEl.find('.id').text();
+      var name = $('#'+id).val();
+      $('#'+id).attr("readonly", false);
+      $('#'+id).attr("readonly", true);
+      $("#update").html('Edit');
+      $("#update").prop('id', 'edit');
+      update_todo(id,name);
+    });
+
+    function update_todo(id, name) {
+      console.log(id, name);
+      var updates = {};
+      updates['to_do/' + id + "/name"] = name;
+      return firebase.database().ref().update(updates);
+    }
+//////update todo end ////////////////
+
+//////delete todo start ////////////////
+    $('table').on('click', '#delete', function() {
+      var rowEl = $(this).closest('tr');
+      var id = rowEl.find('.id').text();
+      delete_todo(id);
+      alert(id);
+    });
+
+    function delete_todo(id) {
+      var rootRef = firebase.database().ref().child('to_do');
+      rootRef.child(id).remove();
+    }
+//////delete todo end ////////////////
+});
+
   </script>
 
 
