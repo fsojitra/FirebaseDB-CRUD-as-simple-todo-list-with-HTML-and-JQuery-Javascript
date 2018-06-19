@@ -12,10 +12,10 @@ You need to have firebase Account.
 * Click on "Get Started" with Realtime Database Start in Test Mode.
 
 # To Run
+ 
+### You need to Clone Or Download zip of this code.
 
-###You need to Clone Or Download zip of this code.
-
-###Need to replace two things in todo.html
+### Need to replace two things in todo.html
 
 Open Your Project You created with DB and go to Overview. Click on "Add Firebase to your web app" You will get code snippet look like below
 
@@ -37,6 +37,6 @@ now you have to replace your own code snippet in todo.html and you are good to g
 
 it would not work if you don't change code snippet add real one.
 
-###If you have done all above changes then just open todo.html in bowser and it's up and Runing you can now add, update and delete ToDo.
+### If you have done all above changes then just open todo.html in bowser and it's up and Runing you can now add, update and delete ToDo.
 
 :star2:
