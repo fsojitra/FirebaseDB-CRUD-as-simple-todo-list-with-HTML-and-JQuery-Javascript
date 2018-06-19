@@ -7,24 +7,27 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
   <link rel="stylesheet" href="style.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+  <!-- replace gstatic here -->
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+
   <script>
     $(document).ready(function(){
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyAPjMxlNowLgFxPgrYyYTXLTByBx2PSzqU",
-        authDomain: "users-6fafb.firebaseapp.com",
-        databaseURL: "https://users-6fafb.firebaseio.com",
-        projectId: "users-6fafb",
-        storageBucket: "users-6fafb.appspot.com",
-        messagingSenderId: "196220815795"
-      };
-      firebase.initializeApp(config);
 
-    var database = firebase.database();
+ ////// Initialize Firebase
+ ///// replace with Your code snippet
+  var config = {
+    apiKey: "<API_KEY>",
+    authDomain: "<PROJECT_ID>.firebaseapp.com",
+    databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
+    projectId: "<PROJECT_ID>",
+    storageBucket: "<BUCKET>.appspot.com",
+    messagingSenderId: "<SENDER_ID>",
+  };
+  firebase.initializeApp(config);
+
 
 //////todo display start ////////////////
     var getvalue = firebase.database().ref('to_do/');
