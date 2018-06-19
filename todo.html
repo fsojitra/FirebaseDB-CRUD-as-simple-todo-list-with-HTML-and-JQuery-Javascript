@@ -4,11 +4,12 @@
   <title>
     CRUD
   </title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
   <link rel="stylesheet" href="style.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <script>
     $(document).ready(function(){
@@ -25,27 +26,29 @@
 
     var database = firebase.database();
 
-
+//////todo display start ////////////////
     var getvalue = firebase.database().ref('to_do/');
     getvalue.on('value', function(snapshot) {
       var tbodyEl = $('tbody');
-
       tbodyEl.html('');
+      var a = 0;
       snapshot.forEach(function(product) {
+        a = a+1;
         tbodyEl.append('\
           <tr>\
           <td class="id">' + product.val().id + '</td>\
-          <td><input type="text" id='+ product.val().id +' value= '+ product.val().name +' readonly></td>\
+          <td>' + a + '</td>\
+          <td><input type="text" class="form-control" id='+ product.val().id +' value= '+ product.val().name +' readonly></td>\
           <td>\
-          <button class="btn" id="edit">Edit</button>\
-          <button class="btn" id="delete">Archives</button>\
+          <button class="btn edit" id="edit'+ product.val().id +'">Edit</button>\
+          <button class="btn" id="delete">Done/Delete</button>\
           </td>\
           </tr>\
           ');
       });
-
     });
-    
+//////todo display end ////////////////
+
 //////add todo start ////////////////
     $( "#add" ).click(function() {
       var task = $('#todo').val();  
@@ -67,23 +70,26 @@
 //////add todo end ////////////////
 
 //////update todo start ////////////////
-    $('table').on('click', '#edit', function() {
+    $('table').on('click', '.edit', function() {
+
       var rowEl = $(this).closest('tr');
       var id = rowEl.find('.id').text();
-      alert(id);
       $('#'+id).attr("readonly", false);
-      $("#edit").html('Update');
-      $("#edit").prop('id', 'update');
+      $("#edit"+id).html('Update');
+      $("#edit"+id).addClass('update').removeClass('edit');
+      $("#edit"+id).prop('id', 'update'+id);
+
     });
 
-    $('table').on('click', '#update', function() {
+    $('table').on('click', '.update', function() {
       var rowEl = $(this).closest('tr');
       var id = rowEl.find('.id').text();
       var name = $('#'+id).val();
       $('#'+id).attr("readonly", false);
       $('#'+id).attr("readonly", true);
-      $("#update").html('Edit');
-      $("#update").prop('id', 'edit');
+      $("#update"+id).html('Edit');
+      $("#update"+id).addClass('edit').removeClass('update');
+      $("#update"+id).prop('id', 'edit'+id);
       update_todo(id,name);
     });
 
@@ -100,7 +106,6 @@
       var rowEl = $(this).closest('tr');
       var id = rowEl.find('.id').text();
       delete_todo(id);
-      alert(id);
     });
 
     function delete_todo(id) {
@@ -111,8 +116,6 @@
 });
 
   </script>
-
-
 
 </head>
 <body>
