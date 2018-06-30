@@ -5,7 +5,7 @@ This is example of To-Do list using FirebaseDataBase and Jqury, Html, Basically 
 # Prerequisites
 
 You need to have firebase Account.
-* Login to gmail. 
+* Login to gmail.
 * Go to firebase console.
 * Create New Project.
 * Go to Database in Develop .
